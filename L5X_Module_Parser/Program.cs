@@ -12,7 +12,7 @@ namespace L5xModuleReport
         static void Main(string[] args)
         {
             // Full paths as string variables
-            string l5xFullPath = @"D:\C_SharpDev\b-24-H\_NEW_Program\b24h_Altares.L5X";
+            string l5xFullPath = @"D:\C_SharpDev\b-24-H\_NEW_Program\b24h_Altares_WIP5_L5XFormat.L5X";
             string csvFullPath = @"D:\C_SharpDev\b-24-H\_NEW_Program\Reports\b24_New_PLC_ModulesReport.csv";
 
             if (!File.Exists(l5xFullPath))
