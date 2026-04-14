@@ -7,6 +7,50 @@ using System.Xml.Linq;
 
 namespace L5xModuleReport
 {
+ /*
+ * ========================================================================
+ * L5X Module Report Generator
+ * ========================================================================
+ * Purpose:
+ *   Reads a Rockwell / Studio 5000 .L5X export file, finds all <Module>
+ *   elements, flattens their attributes and their child <Port> attributes,
+ *   and writes the results to a CSV report.
+ *
+ * What this program extracts:
+ *   1. Every attribute found on each <Module> element.
+ *   2. Every attribute found on descendant <Port> elements under a module.
+ *
+ * Output format:
+ *   - One CSV row per module.
+ *   - CSV columns are generated dynamically from the union of all keys found
+ *     across all modules.
+ *   - Port-related columns are flattened using this pattern:
+ *         Port[<Id>].<AttributeName>
+ *     Example:
+ *         Port[1].Address
+ *         Port[2].Type
+ *
+ * Why the code uses Name.LocalName:
+ *   L5X files may include XML namespaces. Matching with LocalName lets the
+ *   parser find elements like <Module> and <Port> without hardcoding a
+ *   namespace and breaking on differently formatted files.
+ *
+ * Important implementation notes:
+ *   - The current version uses hardcoded full paths for input and output.
+ *   - Descendants() is used for both Module and Port discovery.
+ *     This is flexible, but for very large L5X files it may be slower than
+ *     targeting a more specific XML path.
+ *   - Repeated dictionary keys overwrite earlier values. That behavior is
+ *     intentional for the current flattening logic.
+ *
+ * Good future improvements:
+ *   - Accept file paths from command-line arguments.
+ *   - Add logging and summary statistics.
+ *   - Support filtering by module type or chassis.
+ *   - Add unit tests using small sample L5X files.
+ *   - Preserve port order explicitly in the CSV.
+ * ========================================================================
+ */
     internal class Program
     {
         static void Main(string[] args)
