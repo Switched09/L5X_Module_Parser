@@ -58,9 +58,11 @@ namespace L5xModuleReport
         {
             if (args.Length < 2)
             {
-                Console.WriteLine("Usage:");
+                Console.WriteLine("Error:");
+                Console.Error.WriteLine($"Provide valid file paths for both L5X and CSV files.");
                 Console.WriteLine("L5xModuleReport <l5xFullPath_.l5x> <csvFullPath_.csv>");
-                return;
+                Environment.Exit(100);
+                // return;
             }
 
             // Full paths as string variables
